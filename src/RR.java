@@ -6,7 +6,7 @@ public class RR {
     private int currentTime = 0;
     private final int totalMemory = 1024;
     private int availableMemory = totalMemory;
-    private int timeQuantum = 2; // Round Robin time quantum (you can adjust this)
+    private int timeQuantum = 2;
 
     public RR() {
         processQueue = new LinkedList<>();
@@ -21,7 +21,6 @@ public class RR {
             Process currentProcess = processQueue.poll();
             if (currentProcess.memory <= availableMemory) {
                 runProcess(currentProcess);
-                // Eğer işlem tamamlanmadıysa, tekrar kuyruğa ekleyin
                 if (currentProcess.processTime > 1) {
                     processQueue.add(currentProcess);
                 }
@@ -33,11 +32,10 @@ public class RR {
 
     private void runProcess(Process process) {
         System.out.println("Running process using RR: " + process);
-        availableMemory -= process.memory; // Bellek tahsisi
+        availableMemory -= process.memory;
 
-        // Burada, işlem süresi azaltılmak yerine doğrudan tamamlanmış olarak işaretleniyor.
-        process.status = "COMPLETED";
-        availableMemory += process.memory; // Belleği serbest bırak
+        process.setStatus("COMPLETED");
+        availableMemory += process.memory;
         System.out.println("Process completed: " + process);
     }
 }

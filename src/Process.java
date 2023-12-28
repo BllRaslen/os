@@ -3,7 +3,7 @@ class Process {
     int arrivalTime;
     int priority;
     int cpuTime;
-    int processTime; // Eksik olan processTime alanı eklendi.
+    int processTime;
     int memory;
     int printers;
     int scanners;
@@ -99,27 +99,47 @@ class Process {
         this.status = status;
     }
 
-    // Process sınıfının constructor'ı güncellendi.
     public Process(int pid, int arrivalTime, int priority, int cpuTime, int memory,
                    int printers, int scanners, int modems, int cds) {
         this.pid = pid;
         this.arrivalTime = arrivalTime;
         this.priority = priority;
         this.cpuTime = cpuTime;
-        this.processTime = cpuTime; // processTime, cpuTime olarak başlatıldı.
+        this.processTime = cpuTime;
         this.memory = memory;
         this.printers = printers;
         this.scanners = scanners;
         this.modems = modems;
         this.cds = cds;
-        this.status = "WAITING"; // Initial status
+        this.status = "WAITING";
     }
 
-    // toString metodu güncellendi.
+
+
+
     @Override
     public String toString() {
-        return String.format("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%s",
-                pid, arrivalTime, priority, cpuTime, memory,
-                printers, scanners, modems, cds, status);
+        return String.format("%-4d%-4d%-7d%-5d%-8d%-6d%-6d%-6d%-6d%-12s",
+                pid, arrivalTime, priority, cpuTime, memory, printers, scanners, modems, cds, status);
     }
+
+
+    /*
+     @Override
+    public String toString() {
+        switch (status) {
+            case "DELETED":
+                return pid + " HATA - Proses çok sayıda kaynak talep ediyor - proses silindi";
+            case "TIME_EXCEEDED":
+                return pid + " HATA - Proses zaman aşımı (20 sn de tamamlanamadı)";
+            case "RUNNING":
+                return pid + " " + arrivalTime + " " + priority + " " + cpuTime + " " + memory + " "
+                        + printers + " " + scanners + " " + modems + " " + cds + " " + status;
+            case "COMPLETED":
+                return pid + " COMPLETED";
+            default:
+                return pid + " UNKNOWN STATUS";
+        }
+    }
+     */
 }

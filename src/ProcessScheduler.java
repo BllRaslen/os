@@ -1,8 +1,8 @@
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
-public class ProcessScheduler {
+class ProcessScheduler {
     private PriorityQueue<Process> processQueue;
-    private int currentTime = 0;
     private final int totalMemory = 1024;
     private int availableMemory = totalMemory;
 
@@ -16,36 +16,24 @@ public class ProcessScheduler {
 
     public void schedule() {
         while (!processQueue.isEmpty()) {
-            Process currentProcess = processQueue.peek();
-            if (currentProcess != null && currentProcess.arrivalTime <= currentTime) {
-                processQueue.poll();
-                if (currentProcess.memory <= availableMemory) {
-                    runProcess(currentProcess);
-                } else {
-                    System.out.println("Not enough memory to run process: " + currentProcess);
-                }
+            Process process = processQueue.poll();
+
+            // Eğer işlem bellek sınırlarını aşıyorsa:
+            if (process.memory > availableMemory) {
+                process.setStatus("HATA - Proses çok sayıda kaynak talep ediyor - proses silindi");
             }
-            currentTime++;
-            try {
-                Thread.sleep(100); // Simulate time passing
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            // Eğer gerçek-zamanlı proses var ve belleği aşıyorsa:
+            else if (process.priority == 1 && process.memory > 64) {
+                process.setStatus("HATA - Gerçek-zamanlı proses (" + process.memory + "MB) tan daha fazla bellek talep ediyor - proses silindi");
             }
+            // Diğer durumlar için işlemi çalıştırın:
+            else {
+                // Proses çalıştırma kodları burada olacak.
+                process.setStatus("RUNNING");
+                // Prosesin çalışma simülasyonu burada olacak.
+                process.setStatus("COMPLETED");
+            }
+            System.out.println(process); // Proses sonucunu yazdır
         }
     }
-
-    private void runProcess(Process process) {
-        System.out.println("Running process: " + process);
-        availableMemory -= process.memory; // Allocate memory
-        // Simulate process running
-        try {
-            Thread.sleep(process.processTime * 1000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        availableMemory += process.memory; // Release memory
-        System.out.println("Process completed: " + process);
-    }
-
-    // Add methods for reading the processes from a file, etc.
 }

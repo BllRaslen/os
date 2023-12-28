@@ -21,35 +21,23 @@ public class RR {
             Process currentProcess = processQueue.poll();
             if (currentProcess.memory <= availableMemory) {
                 runProcess(currentProcess);
+                // Eğer işlem tamamlanmadıysa, tekrar kuyruğa ekleyin
+                if (currentProcess.processTime > 1) {
+                    processQueue.add(currentProcess);
+                }
             } else {
                 System.out.println("Not enough memory to run process: " + currentProcess);
-            }
-            // Add the process back to the queue if it's not completed
-            if (currentProcess.processTime > 0) {
-                processQueue.add(currentProcess);
-            }
-            try {
-                Thread.sleep(100); // Simulate time passing
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
 
     private void runProcess(Process process) {
         System.out.println("Running process using RR: " + process);
-        availableMemory -= process.memory; // Allocate memory
-        // Simulate process running for a time quantum
-        for (int i = 0; i < timeQuantum && process.processTime > 0; i++) {
-            process.processTime--;
-            currentTime++;
-            try {
-                Thread.sleep(100); // Simulate time passing
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        availableMemory += process.memory; // Release memory
+        availableMemory -= process.memory; // Bellek tahsisi
+
+        // Burada, işlem süresi azaltılmak yerine doğrudan tamamlanmış olarak işaretleniyor.
+        process.status = "COMPLETED";
+        availableMemory += process.memory; // Belleği serbest bırak
         System.out.println("Process completed: " + process);
     }
 }

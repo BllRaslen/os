@@ -14,7 +14,6 @@ public class FCFS {
     public void addProcess(Process process) {
         processQueue.add(process);
     }
-
     public void schedule() {
         while (!processQueue.isEmpty()) {
             Process currentProcess = processQueue.peek();

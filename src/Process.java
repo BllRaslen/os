@@ -111,7 +111,7 @@ class Process {
         this.scanners = scanners;
         this.modems = modems;
         this.cds = cds;
-        this.status = "WAITING";
+        this.status = "Tamamlandi";
     }
 
 
@@ -119,10 +119,9 @@ class Process {
 
     @Override
     public String toString() {
-        return String.format("%-4d%-4d%-7d%-5d%-8d%-6d%-6d%-6d%-6d%-12s",
-                pid, arrivalTime, priority, cpuTime, memory, printers, scanners, modems, cds, status);
+        return "Surec Bilgileri [PID: " + pid + ", Varış: " + arrivalTime + ", Öncelik: " + priority +
+                ", CPU Zamanı: " + cpuTime + ", Bellek: " + memory + ", Durum: " + status + "]";
     }
-
 
     /*
      @Override

@@ -9,8 +9,9 @@ public class Main {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
             String line;
-            System.out.println("Pid  varış  öncelik  cpu  MBytes  prn  scn  modem  cd  status");
-            System.out.println("============================================================================");
+            System.out.println("İşleme Alınacak Süreçler:");
+            System.out.println("PID | Varış | Öncelik | CPU | Bellek | Yazıcılar | Tarayıcılar | Modemler | CD'ler | Durum");
+            System.out.println("------------------------------------------------------------------------------------------");
 
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");

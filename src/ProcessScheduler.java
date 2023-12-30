@@ -21,9 +21,9 @@ class ProcessScheduler {
             if (currentProcess != null && currentProcess.arrivalTime <= currentTime) {
                 processQueue.poll();
                 if (currentProcess.memory > availableMemory) {
-                    currentProcess.setStatus("DELETED");
+                    currentProcess.setStatus("Silindi");
                 } else if (currentProcess.cpuTime > 20) {
-                    currentProcess.setStatus("TIME_EXCEEDED");
+                    currentProcess.setStatus("ZAMAN AŞIMI YAPILDI");
                 } else {
                     runProcess(currentProcess);
                 }
@@ -39,17 +39,16 @@ class ProcessScheduler {
     }
 
     private void runProcess(Process process) {
-        process.setStatus("RUNNING");
-        availableMemory -= process.memory;
 
+        System.out.println(">>> Başlatılıyor: " + process);
+        availableMemory -= process.memory;
         try {
-            Thread.sleep(process.cpuTime * 1000L);
+            Thread.sleep(process.processTime * 1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         availableMemory += process.memory;
-        process.setStatus("COMPLETED");
+        System.out.println("<<< Tamamlandı: " + process);
     }
 }
 
